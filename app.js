@@ -40,7 +40,9 @@ let getSpotify = function(){
 }
 
 app.get("/spotify", (req, res, next)=>{
-  spotifyApi.getArtistAlbums('43ZHCT0cAZBISjO8DG9PnE').then(function(data){
+  //spotifyApi.getArtistAlbums('43ZHCT0cAZBISjO8DG9PnE').then(function(data){
+    spotifyApi.getPlaylist('satinflame', '2TOOXGh88YHh2keEr66fMu').then(function(data){
+    //https://open.spotify.com/user/satinflame/playlist/2TOOXGh88YHh2keEr66fMu
     console.log('Artist albums', data.body);
     res.json(data.body);
   //  req.json(parse.JSON(data.body));

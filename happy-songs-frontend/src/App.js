@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import TrackBlock from './tracks/TrackBlock.js';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       initialized: false,
-      auth: ''
+      musicData: ''
     }
   }
   componentDidMount(){
@@ -19,26 +20,35 @@ class App extends Component {
     fetch('/spotify').then((webObj)=>{
       return webObj.json(); // auth token
     }).then((data)=>{
-      // this.setState({
-      //   initialized: true,
-      //   auth: data
-      // }); 
-      console.log(data);
+      this.setState({
+        initialized: true,
+        musicData: data
+      }); 
+       console.log("27"+data);
     });
   }
   render() {
-    
+    console.log(this.state.musicData)
+
+    if (this.state.initialized) {
     return (
+      
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to Happy Songs</h1>
         </header>
         <p className="App-intro">
-          {this.state.auth} 
         </p>
+        <TrackBlock musicData={this.state.musicData} />
       </div>
     );
+  } else {
+    return (
+      <div>try again</div>
+    )
+  }
+
   }
 }
 
