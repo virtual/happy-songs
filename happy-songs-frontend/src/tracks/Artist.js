@@ -4,10 +4,10 @@ export default class AlbumCover extends Component{
   constructor(){
     super();
   }
-  render(){
+  render(){ 
     return(
       <div>
-        <a href={this.props.link}><img src={this.props.cover} /></a>
+        <a href={this.props.link}>{this.props.name}</a> 
       </div>
     );
   };

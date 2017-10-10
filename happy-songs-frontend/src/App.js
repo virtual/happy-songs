@@ -15,7 +15,7 @@ class App extends Component {
     fetch('/test').then(function(webObj){
       return  webObj.json();
     }).then(function(data){
-      console.log(data)
+      // console.log(data)
     });
     fetch('/spotify').then((webObj)=>{
       return webObj.json(); // auth token
@@ -24,7 +24,7 @@ class App extends Component {
         initialized: true,
         musicData: data
       }); 
-       console.log("27"+data);
+      //  console.log("27"+data);
     });
   }
   render() {
