@@ -19,10 +19,10 @@ class App extends Component {
     fetch('/spotify').then((webObj)=>{
       return webObj.json(); // auth token
     }).then((data)=>{
-      this.setState({
-        initialized: true,
-        auth: data
-      }); 
+      // this.setState({
+      //   initialized: true,
+      //   auth: data
+      // }); 
       console.log(data);
     });
   }
@@ -36,7 +36,6 @@ class App extends Component {
         </header>
         <p className="App-intro">
           {this.state.auth} 
-          {this.state.musicData}
         </p>
       </div>
     );
