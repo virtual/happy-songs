@@ -11,9 +11,6 @@ var config = require('./config.js');
 // so this the api fetch server
 var auth = '';
 
-
-
-
 app.get("/test", (req, res, next)=>{
   res.json('hello');
 });
@@ -28,7 +25,7 @@ app.get("/spotify", (req, res, next)=>{
     //   redirectUri : 'http://localhost:3000/callback'
     // };
 
-    
+      
   let spotifyApi = new SpotifyWebApi({
     clientId : config.spotify.id,
     clientSecret : config.spotify.secret,
@@ -43,18 +40,21 @@ app.get("/spotify", (req, res, next)=>{
     // Save the access token so that it's used in future calls
     spotifyApi.setAccessToken(data.body['access_token']);
     res.json(data.body['access_token']);
+
+    
+
   }, function(err) {
-    console.log('Something went wrong when retrieving an access token', err.message);
+    console.log('Something went wrong when retrieving an access token ' + err.message);
   });
 
-if (config.debug) console.log('A call was made to the spotify endpoint');
+  if (config.debug) console.log('A call was made to the spotify endpoint');
   // spotifyApi.getArtistAlbums('43ZHCT0cAZBISjO8DG9PnE').then(function(data) {
   //   //console.log('Artist albums', data.body);
   //  req.json(parse.JSON(data.body));
   // }, function(err) {
   //   console.error(err);
   // });
-})
+});
 // class App extends Component {
 //   constructor() {
 //     super();
@@ -107,5 +107,5 @@ if (config.debug) console.log('A call was made to the spotify endpoint');
 // }
 
 app.listen(5000, ()=>{
-  console.log('listening on port 5000 ' + config.spotify.id );
+  console.log('listening on port 5000 ');
 });
