@@ -9,6 +9,11 @@ class App extends Component {
     }).then(function(data){
       console.log(data)
     });
+    fetch('/spotify').then((webObj)=>{
+      return webObj.json();
+    }).then((data)=>{
+      console.log(data);
+    })
   }
   render() {
     return (
