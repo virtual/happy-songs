@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import TrackBlock from './tracks/TrackBlock.js';
+import Feature from './features/Feature';
+import Menu from './menu/Menu';
+import Footer from './features/Footer';
 
 class App extends Component {
   constructor() {
@@ -34,18 +37,20 @@ class App extends Component {
     return (
       
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to Happy Songs</h1>
+        <header> 
+          <Menu/>
         </header>
-        <p className="App-intro">
-        </p>
+      
+        <Feature/>
+        <div className="container">
         <TrackBlock musicData={this.state.musicData} />
+          </div>
+        <Footer />
       </div>
     );
   } else {
     return (
-      <div>try again</div>
+      <div className="loading"><img src="./music.gif" /></div>
     )
   }
 

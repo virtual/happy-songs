@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ListGroup, ListGroupItem, Badge } from 'reactstrap';
 
 export default class Popularity extends Component{
   constructor(){
@@ -7,7 +8,7 @@ export default class Popularity extends Component{
   render(){ 
     return(
       <div>
-        <p>{this.props.pop}</p>
+        <Badge color="primary" pill>{this.props.pop}</Badge>
       </div>
     );
   };

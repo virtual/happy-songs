@@ -5,10 +5,8 @@ export default class Play extends Component{
     super();
   }
   render(){ 
-    return(
-      <div>
-        <a href={this.props.link}>Play</a> 
-      </div>
+    return( 
+        <a href={this.props.link}>Play</a>  
     );
   };
 }

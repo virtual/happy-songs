@@ -1,3 +1,22 @@
 body{
-  background-color: #f00;
+  background-color: whitesmoke;
+}
+.media { flex-direction: column; background: #ccc; width: 80%; margin: 24px 10%; }
+.media img{
+  width: 100%;
+  height: auto;
+}
+.media > div { display:flex; border-bottom: 1px solid #999; padding: 10px;}
+.media > div:last-child { border-bottom: 0;}
+.media > div > * { flex: 3; text-align: left; padding: 8px 5px; order:1}
+.media > div > .media-left { flex: 1; order: 2;}
+.loading { text-align:center; padding: 50px;}
+.jumbotron { background-image:url('https://images.unsplash.com/photo-1424896842869-a5bda51fca24?dpr=1&auto=compress,format&fit=crop&w=750&h=&q=80&cs=tinysrgb&crop=');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  color:#fff;
+}
+.container > div > .media {
+  margin-top: -6rem;
 }
