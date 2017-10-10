@@ -3,6 +3,13 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  componentDidMount(){
+    fetch('/test').then(function(webObj){
+      return  webObj.json();
+    }).then(function(data){
+      console.log(data)
+    });
+  }
   render() {
     return (
       <div className="App">
