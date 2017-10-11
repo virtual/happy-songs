@@ -13,7 +13,7 @@ export default class TrackBlock extends Component{
     this.props.musicData.tracks.items.slice(0, 3).forEach((e, i)=>{
       let trackid = e.track.id;
       let matchTrack = this.props.playCount.find((track)=>{
-        return track.id===trackid;
+        return track.trackId===trackid;
       });
       if (matchTrack === undefined) {
         matchTrack = {
@@ -25,7 +25,7 @@ export default class TrackBlock extends Component{
         <AlbumCover trackid={trackid} cover={e.track.album.images[0].url} link={e.track.album.external_urls.spotify} /> 
         <Media body>
           <Media heading>
-            <TrackName trackid={trackid} link={e.track.external_urls.spotify} name={e.track.name} /><Popularity pop={matchTrack.playCount} />
+            <TrackName trackid={trackid} link={e.track.external_urls.spotify} name={e.track.name} playCount={matchTrack.playCount} /><Popularity pop={matchTrack.playCount} />
           </Media>
           <Artist trackid={trackid} name={e.track.artists["0"].name} link={e.track.artists["0"].external_urls.spotify} />
           

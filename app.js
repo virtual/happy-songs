@@ -42,7 +42,22 @@ app.post("/tracks", (req, res, next)=>{
     }
   });
 });
-
+app.put("/tracks/:trackId", (req, res, next)=>{
+  console.log("LOOK DOWN vvv req.body");
+  console.log(req.body);
+  Track.findOneAndUpdate({
+    trackId: req.params.trackId 
+  }, {
+    playCount: req.body.playCount + 1
+  }, {upsert:true}, (error, doc)=>{
+    if(error){
+      console.log(error);
+      next(error);
+    }else{
+      res.send("Updated");
+    }
+  });
+});
 app.get("/tracks/:id", function(req, res) {
   Track.find({id: req.params.id}, function(err, foundTrack) {
     if (err) {

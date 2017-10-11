@@ -5,8 +5,7 @@ export default class TrackName extends Component{
   render(){ 
     return(
       <div>
-        <p><Play trackid={this.props.trackid} link={this.props.link}/> {this.props.name}</p>
-        {this.props.trackid}
+        <p><Play trackid={this.props.trackid} link={this.props.link} playCount={this.props.playCount} /> {this.props.name}</p>
       </div>
     );
   };
