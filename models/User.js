@@ -2,6 +2,8 @@ var mongoose = require("mongoose");
 var UserSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
+  //email: String,
+  email: { type: String, required: true, unique: true },
   password: String
 });
 /*
@@ -13,4 +15,4 @@ Update trackcount without connecting to user
 then connect trackcount with user
 (this isn't in order)
 */
-module.exports = mongoose.model('UserSchema', UserSchema);
+module.exports = mongoose.model('User', UserSchema);

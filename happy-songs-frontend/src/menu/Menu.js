@@ -1,6 +1,8 @@
 import React from 'react';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
-
+import {
+  Link
+} from 'react-router-dom';
 export default class Menu extends React.Component {
   constructor(props) {
     super(props);
@@ -24,10 +26,12 @@ export default class Menu extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/components/">Components</NavLink>
+              <Link className='nav-link' to='/login'>Login</Link>
+                
               </NavItem>
               <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap">Github</NavLink>
+              <Link className='nav-link' to='/signup'>Sign Up</Link>
+                
               </NavItem>
             </Nav>
           </Collapse>

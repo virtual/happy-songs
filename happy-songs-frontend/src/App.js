@@ -4,6 +4,12 @@ import TrackBlock from './tracks/TrackBlock.js';
 import Feature from './features/Feature';
 import Menu from './menu/Menu';
 import Footer from './features/Footer';
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom';
+import Login from './user/Login';
+import SignUp from './user/SignUp';
 
 class App extends Component {
   constructor() {
@@ -57,14 +63,25 @@ class App extends Component {
     return (
       
       <div className="App">
-        <header> 
-          <Menu/>
-        </header>
+       
       
+        <Router>
+            <div>
+            <header><Menu/></header>
+
         <Feature/>
-        <div className="container">
-        <TrackBlock musicData={this.state.musicData} playCount={this.state.playCount} />
-          </div>
+            <div className="container">
+              <Route exact path='/' render={() => <TrackBlock musicData={this.state.musicData} playCount={this.state.playCount} />} />
+              <Route path='/login' render={() => <Login />} />
+              <Route path='/signup' render={() => <SignUp />} />
+              
+            </div></div>
+          </Router>
+
+      
+        
+        
+
         <Footer />
       </div>
     );

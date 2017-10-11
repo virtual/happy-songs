@@ -18,6 +18,8 @@ app.use(bodyParser.json({
 app.use(bodyParser.urlencoded ({
   extended: true
 }));
+
+// ALL THINGS TRACKS
 app.get("/tracks", (req, res, next)=>{
   Track.find((err, tracks)=>{
     if(err){
@@ -68,7 +70,34 @@ app.get("/tracks/:id", function(req, res) {
     }
   }); 
 });
+// ALL THINGS USERS
+app.post("/signup", (req, res, next)=>{
+  console.log(req.body);
+  var user = new User();
+  user.firstName = req.body.firstname;
+  user.lastName = req.body.lastname;
+  user.email = req.body.email;
+  user.password = req.body.password;
+  
+  user.save((error, userReturned)=>{
+    if(error){
+      console.log(error);
+      next(error);
+    }else{
+      res.json("New user added " + userReturned.email);
+    }
+  });
+})
 
+app.post("/login", (req, res, next)=>{
+  User.find({email: req.body.email, password: req.body.password}, (userObj)=>{
+    if(userObj){
+      console.log("Welcome");
+    }else{
+      console.log("LOSER");
+    }
+  })
+});
 
 // var spotifyApi = new SpotifyWebApi({
 //   clientId : config.spotify.id,
@@ -110,7 +139,7 @@ app.get("/spotify", (req, res, next)=>{
   //spotifyApi.getArtistAlbums('43ZHCT0cAZBISjO8DG9PnE').then(function(data){
     spotifyApi.getPlaylist('satinflame', '2TOOXGh88YHh2keEr66fMu').then(function(data){
     //https://open.spotify.com/user/satinflame/playlist/2TOOXGh88YHh2keEr66fMu
-    console.log('Artist albums', data.body);
+    //console.log('Artist albums', data.body);
     res.json(data.body);
   //  req.json(parse.JSON(data.body));
   // }, function(err) {

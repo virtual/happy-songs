@@ -29,7 +29,7 @@ export default class Play extends Component{
           }
         )
       }).then(function (response) {
-        debugger;
+        //debugger;
       // return response.json();
       //commented out for JSON error thing. we are now more sane.
     }).then((trackObj) => {
