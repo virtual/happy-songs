@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { ListGroup, ListGroupItem, Badge } from 'reactstrap';
+import { Badge } from 'reactstrap';
 
 export default class Popularity extends Component{
-  constructor(){
-    super();
-  }
   render(){ 
     return(
       <div>

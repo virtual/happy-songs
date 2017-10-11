@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import TrackBlock from './tracks/TrackBlock.js';
 import Feature from './features/Feature';
@@ -11,10 +10,30 @@ class App extends Component {
     super();
     this.state = {
       initialized: false,
-      musicData: ''
+      musicData: '',
+      playCount: []
     }
+    this.fetchPlayCount = this.fetchPlayCount.bind(this);
+  }
+  fetchPlayCount () { 
+    // wrap your
+    // logic fetching all the weather api data into a method.
+    var url = 'http://localhost:3000/tracks/';
+    fetch(url).then(function (response) {
+      return response.json();
+    }).then((trackObj) => {
+      if (trackObj !== undefined) {
+        console.log(trackObj);
+        this.setState({ 
+          playCount: trackObj
+        });
+      }  else {
+        console.log('defined');
+      }
+    });
   }
   componentDidMount(){
+    
     fetch('/test').then(function(webObj){
       return  webObj.json();
     }).then(function(data){
@@ -28,7 +47,8 @@ class App extends Component {
         musicData: data
       }); 
       //  console.log("27"+data);
-    });
+    }); 
+    this.fetchPlayCount();
   }
   render() {
     console.log(this.state.musicData)
@@ -43,14 +63,14 @@ class App extends Component {
       
         <Feature/>
         <div className="container">
-        <TrackBlock musicData={this.state.musicData} />
+        <TrackBlock musicData={this.state.musicData} playCount={this.state.playCount} />
           </div>
         <Footer />
       </div>
     );
   } else {
     return (
-      <div className="loading"><img src="./music.gif" /></div>
+      <div className="loading"><img alt="Loading..." src="./music.gif" /></div>
     )
   }
 

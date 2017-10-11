@@ -1,7 +1,8 @@
 body{
   background-color: whitesmoke;
 }
-.media { flex-direction: column; background: #ccc; width: 80%; margin: 24px 10%; }
+.media { flex-direction: column; 
+  background: rgba(183, 183, 183, 0.85); width: 80%; margin: 24px 10%; }
 .media img{
   width: 100%;
   height: auto;
@@ -17,6 +18,16 @@ body{
   background-position: top;
   color:#fff;
 }
-.container > div > .media {
-  margin-top: -6rem;
+h1 { font-size: 2rem;}
+@media(min-width: 480px) {
+  h1 { font-size: 2.5rem;}
+  .container > div > .media {
+    margin-top: -4rem;
+  }
+}
+@media(min-width: 768px) {
+  h1 { font-size: 3rem;}
+  .container > div > .media {
+    margin-top: -6rem;
+  }
 }
