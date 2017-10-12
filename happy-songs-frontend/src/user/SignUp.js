@@ -62,7 +62,7 @@ export default class SignUp extends Component{
           <Input type="password" onChange={this.inputpasswordChange} value={this.state.password} name="password" id="password"  />
         </FormGroup>
         {' '}
-        <a href="/"><Button onClick={this.handleSignup}>Submit</Button></a>
+         <Button onClick={this.handleSignup}>Submit</Button> 
       </div>
     );
   };

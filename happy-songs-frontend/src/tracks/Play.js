@@ -1,55 +1,51 @@
 import React, { Component } from 'react';
+import Popularity from "./Popularity";
 var FontAwesome = require('react-fontawesome');
 export default class Play extends Component{
   constructor(){
     super();
     this.recordPlay = this.recordPlay.bind(this);
-  }
-  recordPlay(event){
-    console.log("Track played: " + this.props.trackid);
-    var win = window.open(this.props.link, '_blank');
-    if (win) {
-        //Browser has allowed it to be opened
-        win.focus();
-    } else {
-        //Browser has blocked it
-        alert('Please allow popups for this website');
+    this.handleClick = this.handleClick.bind(this);
+    this.state = {
+      playCount: 0
     }
+  } 
+  recordPlay(){
+    var win = window.open(this.props.link, '_blank'); // if we don't want the window open
+    
     // do a fetch to a route, maybe pass in the track id to the route
     // find current count in db and up one
     var url = 'http://localhost:3000/tracks/' + this.props.trackid;
-    console.log(typeof(this.props.playCount));
-    console.log("LOOK UP^^^^^");
     fetch(url, {
-        method: "PUT",
-        headers:{"Content-Type":"application/json"}, 
-        body: JSON.stringify(
-          {
-            playCount: this.props.playCount
-          }
-        )
+        method: "PUT"
       }).then(function (response) {
         //debugger;
-      // return response.json();
+      return response.json();
       //commented out for JSON error thing. we are now more sane.
     }).then((trackObj) => {
-      if (trackObj !== undefined) {
-        console.log("trackObj vvv");
-        console.log(trackObj);
+      if (trackObj !== undefined) { 
         this.setState({
-          // playCount: trackObj
+          playCount: trackObj.playCount
         });
       }  else {
-        console.log('defined');
       }
     });
     return false;
   }
+  componentDidMount() {
+    this.setState ({
+      playCount: this.props.playCount
+    })
+  }
+  handleClick() { 
+    this.recordPlay();
+  }
   render(){
-    // (this.props.trackid)
-    console.log(this.props);
     return( 
-        <a onClick={this.recordPlay}><FontAwesome name='play-circle' /></a>
+      <div>
+        <a onClick={this.handleClick}><FontAwesome name='play-circle' /></a>
+        <Popularity pop={this.state.playCount}/>
+      </div>
     );
   };
 }

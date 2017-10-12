@@ -45,34 +45,41 @@ app.post("/tracks", (req, res, next)=>{
   });
 });
 app.put("/tracks/:trackId", (req, res, next)=>{
-  console.log("LOOK DOWN vvv req.body");
-  console.log(req.body);
   Track.findOneAndUpdate({
     trackId: req.params.trackId 
   }, {
-    playCount: req.body.playCount + 1
-  }, {upsert:true}, (error, doc)=>{
+    $inc: {playCount: 1}
+  }, {upsert:true, new: true}, (error, doc)=>{ // the new option returns the updated obj instead of the orig
     if(error){
       console.log(error);
       next(error);
     }else{
-      res.send("Updated");
+      console.log(doc);
+      res.json(doc);
     }
   });
 });
+app.get("/playCount/:id", (req, res, next)=>{
+  if(error){
+    console.log(error);
+    next(error);
+  }else{
+
+  }
+})
 app.get("/tracks/:id", function(req, res) {
   Track.find({id: req.params.id}, function(err, foundTrack) {
     if (err) {
       console.log('error');
     } else {
-      console.log('show' + foundTrack);
+      //console.log('show' + foundTrack);
       res.json({trackData: foundTrack})
     }
   }); 
 });
 // ALL THINGS USERS
 app.post("/signup", (req, res, next)=>{
-  console.log(req.body);
+  //console.log(req.body);
   var user = new User();
   user.firstName = req.body.firstName;
   user.lastName = req.body.lastName;
@@ -84,7 +91,7 @@ app.post("/signup", (req, res, next)=>{
       console.log(error);
       next(error);
     }else{
-      res.json("New user added " + userReturned.email);
+      res.json(userReturned);
     }
   });
 })

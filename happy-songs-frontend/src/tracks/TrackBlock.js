@@ -20,12 +20,13 @@ export default class TrackBlock extends Component{
           playCount: 0
         }
       }
+      console.log("LOOK DOWN VVV matchTrack");
       console.log(matchTrack);
       albums.push(<div key={i}>
         <AlbumCover trackid={trackid} cover={e.track.album.images[0].url} link={e.track.album.external_urls.spotify} /> 
         <Media body>
           <Media heading>
-            <TrackName trackid={trackid} link={e.track.external_urls.spotify} name={e.track.name} playCount={matchTrack.playCount} /><Popularity pop={matchTrack.playCount} />
+            <TrackName trackid={trackid} link={e.track.external_urls.spotify} name={e.track.name} playCount={matchTrack.playCount} /> 
           </Media>
           <Artist trackid={trackid} name={e.track.artists["0"].name} link={e.track.artists["0"].external_urls.spotify} />
           

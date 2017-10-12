@@ -18,7 +18,9 @@ class App extends Component {
     this.state = {
       initialized: false,
       musicData: '',
-      playCount: []
+      playCount: [],
+      firstName: 'Name!',
+      lastName: ''
     }
     this.fetchPlayCount = this.fetchPlayCount.bind(this);
     this.submitSignup = this.submitSignup.bind(this);
@@ -73,15 +75,19 @@ class App extends Component {
             password: signupObj.password
           }
         )
-      }).then(function (response) { 
+      }).then((response)=> { 
+        
+      
         return response.json();
-    }).then((userObj) => {
+    }).then((userObj) => { // USE ARROW NOTATION TO KEEP THIS
+      //console.log("userObj"+userObj); // echos in app server terminal
+      // the thing returned is the thing in the res.json of the app.js save
       if (userObj !== undefined) { 
-        console.log(userObj); // echos in app server terminal
- 
         this.setState({
-          // playCount: userObj
-        });
+          firstName: userObj.firstName,
+          lastName: userObj.lastName
+        }); 
+       
       }  else {
         console.log('user add failed');
       }
@@ -89,7 +95,7 @@ class App extends Component {
   }
   render() {
     console.log(this.state.musicData)
-
+    console.log(this.state.firstName + "!!33!!");
     if (this.state.initialized) {
     return (
       
@@ -99,8 +105,8 @@ class App extends Component {
         <Router>
             <div>
             <header><Menu/></header>
-
-        <Feature/>
+            Hi {this.state.firstName}
+        <Feature/> 
             <div className="container">
               <Route exact path='/' render={() => <TrackBlock musicData={this.state.musicData} playCount={this.state.playCount} />} />
               <Route path='/login' render={() => <Login />} />
@@ -109,10 +115,6 @@ class App extends Component {
               
             </div></div>
           </Router>
-
-      
-        
-        
 
         <Footer />
       </div>
