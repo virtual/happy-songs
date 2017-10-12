@@ -21,11 +21,13 @@ class App extends Component {
       playCount: []
     }
     this.fetchPlayCount = this.fetchPlayCount.bind(this);
+    this.submitSignup = this.submitSignup.bind(this);
+    
   }
   fetchPlayCount () { 
     // wrap your
     // logic fetching all the weather api data into a method.
-    var url = 'http://localhost:3000/tracks/';
+    var url = '/tracks/';
     fetch(url).then(function (response) {
       return response.json();
     }).then((trackObj) => {
@@ -57,6 +59,34 @@ class App extends Component {
     }); 
     this.fetchPlayCount();
   }
+  submitSignup(signupObj) {
+    var url = '/signup';
+   
+    fetch(url, {
+        method: "POST",
+        headers:{"Content-Type":"application/json"}, 
+        body: JSON.stringify(
+          {
+            firstName: signupObj.firstName,
+            lastName: signupObj.lastName,
+            email: signupObj.email,
+            password: signupObj.password
+          }
+        )
+      }).then(function (response) { 
+        return response.json();
+    }).then((userObj) => {
+      if (userObj !== undefined) { 
+        console.log(userObj); // echos in app server terminal
+ 
+        this.setState({
+          // playCount: userObj
+        });
+      }  else {
+        console.log('user add failed');
+      }
+    }); 
+  }
   render() {
     console.log(this.state.musicData)
 
@@ -74,7 +104,7 @@ class App extends Component {
             <div className="container">
               <Route exact path='/' render={() => <TrackBlock musicData={this.state.musicData} playCount={this.state.playCount} />} />
               <Route path='/login' render={() => <Login />} />
-              <Route path='/signup' render={() => <SignUp />} />
+              <Route path='/signup' render={() => <SignUp submitSignup={this.submitSignup} />} />
               <Route path='/about' render={() => <About />} />
               
             </div></div>

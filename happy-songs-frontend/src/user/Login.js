@@ -47,7 +47,6 @@ export default class Login extends Component{
     return(
       <div>
         <h1 className="mb-3">Login</h1>
-        
           <Label for="email">Email</Label>{' '}
           <Input value={this.state.email} onChange={this.handleUpdateEmail} type="email" name="email" id="email" placeholder="you@something.com" />
         {' '}

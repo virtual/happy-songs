@@ -74,8 +74,8 @@ app.get("/tracks/:id", function(req, res) {
 app.post("/signup", (req, res, next)=>{
   console.log(req.body);
   var user = new User();
-  user.firstName = req.body.firstname;
-  user.lastName = req.body.lastname;
+  user.firstName = req.body.firstName;
+  user.lastName = req.body.lastName;
   user.email = req.body.email;
   user.password = req.body.password;
   
