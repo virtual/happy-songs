@@ -15,7 +15,7 @@ export default class Play extends Component{
     
     // do a fetch to a route, maybe pass in the track id to the route
     // find current count in db and up one
-    var url = 'http://localhost:3000/tracks/' + this.props.trackid;
+    var url = '/tracks/' + this.props.trackid;
     fetch(url, {
         method: "PUT"
       }).then(function (response) {

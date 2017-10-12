@@ -44,12 +44,6 @@ class App extends Component {
     });
   }
   componentDidMount(){
-    
-    fetch('/test').then(function(webObj){
-      return  webObj.json();
-    }).then(function(data){
-      // console.log(data)
-    });
     fetch('/spotify').then((webObj)=>{
       return webObj.json(); // auth token
     }).then((data)=>{
@@ -95,7 +89,6 @@ class App extends Component {
   }
   render() {
     console.log(this.state.musicData)
-    console.log(this.state.firstName + "!!33!!");
     if (this.state.initialized) {
     return (
       
@@ -113,10 +106,12 @@ class App extends Component {
               <Route path='/signup' render={() => <SignUp submitSignup={this.submitSignup} />} />
               <Route path='/about' render={() => <About />} />
               
-            </div></div>
-          </Router>
+            </div>
+       
 
         <Footer />
+        </div>
+        </Router>
       </div>
     );
   } else {

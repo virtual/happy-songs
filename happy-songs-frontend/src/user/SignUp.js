@@ -21,12 +21,29 @@ export default class SignUp extends Component{
   /// stuff
   handleSignup() {
     // this makes an obj to retun
-    this.props.submitSignup({
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      email: this.state.email,
-      password: this.state.password
-    })
+
+    if(this.state.firstName === "Lee" && this.state.lastName === "Rouse"){
+      this.props.submitSignup({ 
+        firstName: "COOLEST DUDE EVER",
+        lastName: "COOLER THAN YOU!",
+        email: this.state.email,
+        password: this.state.password
+      })     
+    }else if(this.state.firstName === "Jeanine" && this.state.lastName === "Schoessler"){
+      this.props.submitSignup({ 
+        firstName: "not as cool as Lee",
+        lastName: "still not as cool as Lee",
+        email: this.state.email,
+        password: this.state.password
+      })     
+    }else{
+      this.props.submitSignup({
+        firstName: this.state.firstName,      
+        lastName: this.state.lastName,
+        email: this.state.email,
+        password: this.state.password
+      })
+    }
   }
   inputfirstNameChange(event) {
     this.setState({firstName: event.target.value});

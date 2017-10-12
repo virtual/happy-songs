@@ -19,9 +19,7 @@ export default class TrackBlock extends Component{
         matchTrack = {
           playCount: 0
         }
-      }
-      console.log("LOOK DOWN VVV matchTrack");
-      console.log(matchTrack);
+      }  
       albums.push(<div key={i}>
         <AlbumCover trackid={trackid} cover={e.track.album.images[0].url} link={e.track.album.external_urls.spotify} /> 
         <Media body>
