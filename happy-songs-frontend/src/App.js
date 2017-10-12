@@ -87,14 +87,10 @@ class App extends Component {
       }
     }); 
   }
-  render() {
-    console.log(this.state.musicData)
+  render() { 
     if (this.state.initialized) {
     return (
-      
       <div className="App">
-       
-      
         <Router>
             <div>
             <header><Menu/></header>
@@ -105,10 +101,7 @@ class App extends Component {
               <Route path='/login' render={() => <Login />} />
               <Route path='/signup' render={() => <SignUp submitSignup={this.submitSignup} />} />
               <Route path='/about' render={() => <About />} />
-              
             </div>
-       
-
         <Footer />
         </div>
         </Router>

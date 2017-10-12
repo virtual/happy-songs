@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label, Input, FormText, Alert } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 
-export default class Login extends Component{
+class Login extends Component{
   constructor(){
     super();
     this.inputemailChange = this.inputemailChange.bind(this);
@@ -36,10 +36,13 @@ export default class Login extends Component{
         return response.json();
     }).then((userObj) => {
       console.log(userObj);
+      if (userObj.success) { 
         // we returned a user
-        //this.props.history.push("/");
+        this.props.history.push("/");
+      }  else {
         console.log(userObj.message);
         this.setState({message: userObj.message});
+      }
     }); 
   }
   render(){ 
@@ -63,3 +66,5 @@ export default class Login extends Component{
     );
   };
 }
+
+export default withRouter(Login);

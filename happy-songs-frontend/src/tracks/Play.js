@@ -43,7 +43,7 @@ export default class Play extends Component{
   render(){
     return( 
       <div>
-        <a onClick={this.handleClick}><FontAwesome name='play-circle' /></a>
+        <p><a onClick={this.handleClick}><FontAwesome name='play-circle' /></a></p>
         <Popularity pop={this.state.playCount}/>
       </div>
     );
