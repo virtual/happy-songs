@@ -26,12 +26,13 @@ export default class Menu extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-              <Link className='nav-link' to='/login'>Login</Link>
-                
+                <Link className='nav-link' to='/login'>Login</Link>
               </NavItem>
               <NavItem>
-              <Link className='nav-link' to='/signup'>Sign Up</Link>
-                
+                <Link className='nav-link' to='/signup'>Sign Up</Link>
+              </NavItem>
+              <NavItem>
+                <Link className='nav-link' to='/about'>About</Link>
               </NavItem>
             </Nav>
           </Collapse>

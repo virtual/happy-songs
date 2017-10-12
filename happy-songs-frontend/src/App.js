@@ -10,6 +10,7 @@ import {
 } from 'react-router-dom';
 import Login from './user/Login';
 import SignUp from './user/SignUp';
+import About from './features/About';
 
 class App extends Component {
   constructor() {
@@ -74,6 +75,7 @@ class App extends Component {
               <Route exact path='/' render={() => <TrackBlock musicData={this.state.musicData} playCount={this.state.playCount} />} />
               <Route path='/login' render={() => <Login />} />
               <Route path='/signup' render={() => <SignUp />} />
+              <Route path='/about' render={() => <About />} />
               
             </div></div>
           </Router>
