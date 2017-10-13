@@ -4,6 +4,7 @@ import Artist from './Artist';
 import Popularity from './Popularity';
 import TrackName from './TrackName';
 import { Media } from 'reactstrap';
+import Play from './Play';
 import './tracks.css';
 
 export default class TrackBlock extends Component{
@@ -22,11 +23,13 @@ export default class TrackBlock extends Component{
       }  
       albums.push(<div key={i}>
         <AlbumCover trackid={trackid} cover={e.track.album.images[0].url} link={e.track.album.external_urls.spotify} /> 
+        <Play trackid={trackid} link={e.track.artists["0"].external_urls.spotify} playCount={matchTrack.playCount} />
         <Media body>
+          <Artist trackid={trackid} name={e.track.artists["0"].name} link={e.track.artists["0"].external_urls.spotify} />
           <Media heading>
+
             <TrackName trackid={trackid} link={e.track.external_urls.spotify} name={e.track.name} playCount={matchTrack.playCount} /> 
           </Media>
-          <Artist trackid={trackid} name={e.track.artists["0"].name} link={e.track.artists["0"].external_urls.spotify} />
           
         </Media> 
         </div>);
