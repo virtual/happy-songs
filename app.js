@@ -170,7 +170,8 @@ app.post('/login', function (req, res, next) {
           res.json({
             found: true,
             message: "Successful Login, Welcome " + user.firstName,
-            success: true
+            success: true,
+            user: user
           });
         } else {
           res.json({

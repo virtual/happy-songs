@@ -1,5 +1,8 @@
 import React, { Component } from 'react'; 
 import { Button, Form, FormGroup, Label, Input, FormText, Alert } from 'reactstrap';
+import {
+  Redirect
+} from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 
 class Login extends Component{
@@ -7,43 +10,26 @@ class Login extends Component{
     super();
     this.inputemailChange = this.inputemailChange.bind(this);
     this.inputpasswordChange = this.inputpasswordChange.bind(this);
-    this.submitLogin = this.submitLogin.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
     this.state = { 
       email: '',
       password: '', 
       message: ''
     }
   }
+  handleLogin() {
+    // this makes an obj to retun
+    this.props.submitLogin({
+      email: this.state.email,
+      password: this.state.password
+    });
+    // this.props.history.push("/");
+  }
   inputemailChange(event) {
     this.setState({email: event.target.value});
   }
   inputpasswordChange(event) {
     this.setState({password: event.target.value});
-  }
-  submitLogin() {
-    var url = '/login';
-   console.log(this.state + "ema");
-    fetch(url, {                      
-        method: "POST",
-        headers:{"Content-Type":"application/json"}, 
-        body: JSON.stringify(
-          {
-            email: this.state.email,
-            password: this.state.password
-          }
-        )
-      }).then(function (response) { 
-        return response.json();
-    }).then((userObj) => {
-      console.log(userObj);
-      if (userObj.success) { 
-        // we returned a user
-        this.props.history.push("/");
-      }  else {
-        console.log(userObj.message);
-        this.setState({message: userObj.message});
-      }
-    }); 
   }
   render(){ 
     return(
@@ -60,7 +46,7 @@ class Login extends Component{
           <Input type="password" onChange={this.inputpasswordChange} value={this.state.password} name="password" id="password"  />
         </FormGroup>
         {' '}
-        <Button onClick={this.submitLogin}>Submit</Button>
+        <Button onClick={this.handleLogin}>Submit</Button>
     
       </div>
     );

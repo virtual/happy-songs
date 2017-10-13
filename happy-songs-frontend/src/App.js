@@ -19,13 +19,29 @@ class App extends Component {
       initialized: false,
       musicData: '',
       playCount: [],
-      firstName: 'Name!',
-      lastName: ''
+      firstName: '',
+      lastName: '',
+      email: '',
+      user: { firstName: "", lastName: "", email: "" }
     }
     this.fetchPlayCount = this.fetchPlayCount.bind(this);
     this.submitSignup = this.submitSignup.bind(this);
-    
+    this.submitLogin = this.submitLogin.bind(this);
+     
+    this.setUser = this.setUser.bind(this);
+    this.getUser = this.getUser.bind(this);
+
   }
+
+  setUser(user) {
+    this.setState({
+      user: user
+    });
+  }
+  getUser() {
+    return this.state.user;
+  }
+
   fetchPlayCount () { 
     // wrap your
     // logic fetching all the weather api data into a method.
@@ -78,12 +94,48 @@ class App extends Component {
           this.setState({
             firstName: userObj.firstName,
             message: userObj.message,
-            lastName: userObj.lastName
+            lastName: userObj.lastName,
+            user: {
+              name: userObj.firstName,
+              lastName: userObj.lastName,
+              email: userObj.email
+            }
           }); 
         
         }  else {
           console.log('user add failed');
         }
+    }); 
+  }
+
+  submitLogin(loginObj) {
+    var url = '/login'; 
+    fetch(url, {                      
+        method: "POST",
+        headers:{"Content-Type":"application/json"}, 
+        body: JSON.stringify(
+          {
+            email: loginObj.email,
+            password: loginObj.password
+          }
+        )
+      }).then(function (response) {
+        return response.json();
+    }).then((userObj) => {
+      console.log("HI AND STUFF");
+      console.log(userObj);
+      if (userObj.success) { 
+        // we returned a user
+        // this.history.push("/");
+        //<Router history={history} />
+        this.setUser({firstName: userObj.user.firstName,lastName: userObj.user.lastName, email: userObj.user.email});
+      }else{
+        console.log(userObj.message);
+        this.setState({
+          message: userObj.message,
+          email: userObj.email
+        });
+      }
     }); 
   }
   render() { 
@@ -92,12 +144,12 @@ class App extends Component {
       <div className="App">
         <Router>
             <div>
-            <header><Menu/></header>
-            Hi {this.state.firstName}
+            <header><Menu getUser={this.getUser}/></header>
+            
         <Feature/> 
             <div className="container">
               <Route exact path='/' render={() => <TrackBlock musicData={this.state.musicData} playCount={this.state.playCount} />} />
-              <Route path='/login' render={() => <Login />} />
+              <Route path='/login' render={() => <Login history={this.props.history} setUser={this.setUser} submitLogin={this.submitLogin} />} />
               <Route path='/signup' render={() => <SignUp submitSignup={this.submitSignup} />} />
               <Route path='/about' render={() => <About />} />
             </div>
