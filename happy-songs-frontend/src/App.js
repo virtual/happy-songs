@@ -70,21 +70,20 @@ class App extends Component {
           }
         )
       }).then((response)=> { 
-        
-      
         return response.json();
-    }).then((userObj) => { // USE ARROW NOTATION TO KEEP THIS
-      //console.log("userObj"+userObj); // echos in app server terminal
-      // the thing returned is the thing in the res.json of the app.js save
-      if (userObj !== undefined) { 
-        this.setState({
-          firstName: userObj.firstName,
-          lastName: userObj.lastName
-        }); 
-       
-      }  else {
-        console.log('user add failed');
-      }
+      }).then((userObj) => { // USE ARROW NOTATION TO KEEP THIS
+        //console.log("userObj"+userObj); // echos in app server terminal
+        // the thing returned is the thing in the res.json of the app.js save
+        if (userObj !== undefined) { 
+          this.setState({
+            firstName: userObj.firstName,
+            message: userObj.message,
+            lastName: userObj.lastName
+          }); 
+        
+        }  else {
+          console.log('user add failed');
+        }
     }); 
   }
   render() { 
@@ -106,13 +105,12 @@ class App extends Component {
         </div>
         </Router>
       </div>
-    );
-  } else {
-    return (
-      <div className="loading"><img alt="Loading..." src="./music.gif" /></div>
-    )
-  }
-
+      );
+    } else {
+      return (
+        <div className="loading"><img alt="Loading..." src="./music.gif" /></div>
+      )
+    }
   }
 }
 

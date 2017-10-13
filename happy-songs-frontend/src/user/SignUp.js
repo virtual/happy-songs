@@ -3,47 +3,33 @@ import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import {
   Redirect
 } from 'react-router-dom';
-export default class SignUp extends Component{
+import { withRouter } from 'react-router-dom';
+class SignUp extends Component{
   constructor() {
     super();
     this.inputfirstNameChange = this.inputfirstNameChange.bind(this);
     this.inputlastNameChange = this.inputlastNameChange.bind(this);
     this.inputemailChange = this.inputemailChange.bind(this);
     this.inputpasswordChange = this.inputpasswordChange.bind(this);
+    this.handleSignup = this.handleSignup.bind(this);
     this.state = {
       firstName: '',
       lastName: '',
       email: '',
-      password: ''
+      password: '',
+      message: ''
     }
-    this.handleSignup = this.handleSignup.bind(this);
   }
-  /// stuff
+//submitSignup() is in App.js
   handleSignup() {
     // this makes an obj to retun
-
-    if(this.state.firstName === "Lee" && this.state.lastName === "Rouse"){
-      this.props.submitSignup({ 
-        firstName: "COOLEST DUDE EVER",
-        lastName: "COOLER THAN YOU!",
-        email: this.state.email,
-        password: this.state.password
-      })     
-    }else if(this.state.firstName === "Jeanine" && this.state.lastName === "Schoessler"){
-      this.props.submitSignup({ 
-        firstName: "not as cool as Lee",
-        lastName: "still not as cool as Lee",
-        email: this.state.email,
-        password: this.state.password
-      })     
-    }else{
-      this.props.submitSignup({
-        firstName: this.state.firstName,      
-        lastName: this.state.lastName,
-        email: this.state.email,
-        password: this.state.password
-      })
-    }
+    this.props.submitSignup({
+      firstName: this.state.firstName,      
+      lastName: this.state.lastName,
+      email: this.state.email,
+      password: this.state.password
+    });
+    // this.props.history.push("/");
   }
   inputfirstNameChange(event) {
     this.setState({firstName: event.target.value});
@@ -61,6 +47,7 @@ export default class SignUp extends Component{
     return(
       <div>
         <h1 className="mb-3">Signup</h1>
+        {this.state.message}
         <FormGroup>
           <Label for="firstName">First Name</Label>{' '}
           <Input type="text" onChange={this.inputfirstNameChange} value={this.state.firstName} name="firstName" id="firstName" />
@@ -84,3 +71,5 @@ export default class SignUp extends Component{
     );
   };
 }
+
+export default withRouter(SignUp);

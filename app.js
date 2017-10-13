@@ -86,17 +86,70 @@ app.post("/signup", (req, res, next) => {
   user.firstName = req.body.firstName;
   user.lastName = req.body.lastName;
   user.email = req.body.email;
-  user.password = req.body.password;
-
-  user.save((error, userReturned) => {
-    if (error) {
-      console.log(error);
-      next(error);
+  user.password = req.body.password; 
+ 
+  // user.save((error, userReturned) => {
+  //   if (error) {
+  //     console.log(error);
+  //     next(error);
+  //   } else {
+  //     res.json(userReturned);
+  //   }
+  // });
+  User.findOne({
+    email: user.email
+  },  (err, foundUser)=> { // changed to arrow notation to ref user
+    if (err) {
+      res.json({
+        found: false,
+        message: err,
+        success: false
+      });
     } else {
-      res.json(userReturned);
+      
+      console.log(user);
+      user.save((error, userReturned) => {
+        // currently crashes if user exists
+        if (error) {
+          console.log(error);
+          next(error);
+          //this.setState({message: message});
+        } else {
+          //res.json(userReturned);
+          res.json({
+            userReturned: userReturned,
+            found: true,
+            message: "Success",
+            success: true
+          });
+
+        //this.props.history.push("/");
+        }
+      });
+
+      // if (user) {
+      //   if (email === user.email) {
+      //     res.json({
+      //       found: true,
+      //       message: "Get the F**k out of here! that email is in use.",
+      //       success: false
+      //     });
+      //   } else {
+
+      //   }
+      // } else {
+      //   res.json({
+      //     found: false,
+      //     message: "No such user",
+      //     success: false
+      //   });
+      // }
+
+
     }
   });
-})
+    
+});
 
 // borrowed from ekk
 app.post('/login', function (req, res, next) { 
