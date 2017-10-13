@@ -16,12 +16,18 @@ export default class Play extends Component{
     // do a fetch to a route, maybe pass in the track id to the route
     // find current count in db and up one
     var url = '/tracks/' + this.props.trackid;
+    console.log("this props put");
+    console.log(this.props.getUser());
+    console.log("end");
     fetch(url, {
-        method: "PUT"
+        method: "PUT",
+        headers:{"Content-Type":"application/json"}, 
+        body: JSON.stringify(
+          this.props.getUser()
+        )
       }).then(function (response) {
         //debugger;
       return response.json();
-      //commented out for JSON error thing. we are now more sane.
     }).then((trackObj) => {
       if (trackObj !== undefined) { 
         this.setState({

@@ -33,7 +33,7 @@ export default class Menu extends React.Component {
     return (
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">{personalization}Happy Songs</NavbarBrand>
+          <NavbarBrand ><Link to="/">{personalization}Happy Songs</Link></NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
