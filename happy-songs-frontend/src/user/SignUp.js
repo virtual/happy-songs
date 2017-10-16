@@ -28,8 +28,9 @@ class SignUp extends Component{
       lastName: this.state.lastName,
       email: this.state.email,
       password: this.state.password
+    }).then(()=>{
+     this.props.history.push("/");
     });
-    // this.props.history.push("/");
   }
   inputfirstNameChange(event) {
     this.setState({firstName: event.target.value});

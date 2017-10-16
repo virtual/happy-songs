@@ -4,7 +4,6 @@ import {
   Redirect, Link
 } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
-
 class Login extends Component{
   constructor(){
     super();
@@ -26,25 +25,11 @@ class Login extends Component{
     this.props.submitLogin({
       email: this.state.email,
       password: this.state.password
-    });
-    console.log("HI");
-    console.log(this.props);
-    console.log("HI AGain");
-    console.log(this.state);
-
-    setTimeout(()=>{
-      if(this.props.success){
-        this.props.history.push("/"); 
-      }else{
-        this.setState({
-          link: <p>QUIT FAILING</p>
-        })
-      }
-    }, 200);
-   
-
-    // this.props.history.push("/");
+    }).then(()=>{
+      this.props.history.push("/"); 
+    })
   }
+
   inputemailChange(event) {
     this.setState({email: event.target.value});
   }

@@ -69,84 +69,85 @@ class App extends Component {
         initialized: true,
         musicData: data
       }); 
-      //  console.log("27"+data);
     }); 
     this.fetchPlayCount();
   }
+
   submitSignup(signupObj) {
-    var url = '/signup';
-   
-    fetch(url, {
-        method: "POST",
-        headers:{"Content-Type":"application/json"}, 
-        body: JSON.stringify(
-          {
-            firstName: signupObj.firstName,
-            lastName: signupObj.lastName,
-            email: signupObj.email,
-            password: signupObj.password
-          }
-        )
-      }).then((response)=> { 
-        return response.json();
-      }).then((userObj) => { // USE ARROW NOTATION TO KEEP THIS
-        //console.log("userObj"+userObj); // echos in app server terminal
-        // the thing returned is the thing in the res.json of the app.js save
-        if (userObj !== undefined) { 
-          this.setState({
-            firstName: userObj.firstName,
-            message: userObj.message,
-            lastName: userObj.lastName,
-            user: {
-              name: userObj.firstName,
-              lastName: userObj.lastName,
-              email: userObj.email
+    return new Promise((resolve, reject)=>{
+      var url = '/signup';
+      fetch(url, {
+          method: "POST",
+          headers:{"Content-Type":"application/json"}, 
+          body: JSON.stringify(
+            {
+              firstName: signupObj.firstName,
+              lastName: signupObj.lastName,
+              email: signupObj.email,
+              password: signupObj.password
             }
-          }); 
-        
-        }  else {
-          console.log('user add failed');
-        }
-    }); 
+          )
+        }).then((response)=> { 
+          return response.json();
+        }).then((userObj) => { // USE ARROW NOTATION TO KEEP THIS
+          // the thing returned is the thing in the res.json of the app.js save
+          if (userObj) { 
+            this.setState({
+              firstName: userObj.firstName,
+              message: userObj.message,
+              lastName: userObj.lastName,
+              user: {
+                name: userObj.firstName,
+                lastName: userObj.lastName,
+                email: userObj.email
+              }
+            }); 
+            resolve();
+          }  else {
+            reject();
+          }
+      }); 
+    })
   }
 
   submitLogin(loginObj) {
-    var url = '/login'; 
-    fetch(url, {                      
-        method: "POST",
-        headers:{"Content-Type":"application/json"}, 
-        body: JSON.stringify(
-          {
-            email: loginObj.email,
-            password: loginObj.password
-          }
-        )
-      }).then(function (response) {
-        return response.json();
-    }).then((userObj) => {
-      console.log("HI AND STUFF");
-      console.log(userObj);
-      if (userObj.success) { 
-        this.setState({
-          message: userObj.message,
-          email: userObj.email,
-          success: userObj.success
-        })
-        // we returned a user
-        // this.history.push("/");
-        //<Router history={history} />
-        this.setUser({firstName: userObj.user.firstName,lastName: userObj.user.lastName, email: userObj.user.email});
-        //return (userObj);
-      }else{
-        console.log(userObj.message);
-        this.setState({
-          message: userObj.message,
-          email: userObj.email,
-          success: userObj.success
-        });
-      }
-    }); 
-  }
+    return new Promise((resolve, reject)=>{
+
+      var url = '/login'; 
+      fetch(url, {                      
+          method: "POST",
+          headers:{"Content-Type":"application/json"}, 
+          body: JSON.stringify(
+            {
+              email: loginObj.email,
+              password: loginObj.password
+            }
+          )
+        }).then(function (response) {
+          return response.json();
+      }).then((userObj) => {
+        if (userObj.success) { 
+
+          this.setState({
+            message: userObj.message,
+            email: userObj.email,
+            success: userObj.success
+          })
+          this.setUser({firstName: userObj.user.firstName,lastName: userObj.user.lastName, email: userObj.user.email});
+          resolve();
+
+        }else{
+          console.log(userObj.message);
+          this.setState({
+            message: userObj.message,
+            email: userObj.email,
+            success: userObj.success
+          });
+        }
+      }); 
+    }
+  )}
+
   render() { 
     if (this.state.initialized) {
     return (
