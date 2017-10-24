@@ -4,6 +4,8 @@ import TrackBlock from './tracks/TrackBlock.js';
 import Feature from './features/Feature';
 import Menu from './menu/Menu';
 import Footer from './features/Footer';
+import { Button, Form, FormGroup, Label, Input, FormText, Alert } from 'reactstrap';
+
 import {
   BrowserRouter as Router,
   Route
@@ -11,169 +13,97 @@ import {
 import Login from './user/Login';
 import SignUp from './user/SignUp';
 import About from './features/About';
-import Favorites from './tracks/Favorites'
+import Favorites from './tracks/Favorites';
+var axios = require('axios');
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      initialized: false,
-      musicData: '',
-      playCount: [],
-      firstName: '',
-      lastName: '',
-      email: '',
-      user: { firstName: "", lastName: "", email: "" },
-      success: null
+      user:null
     }
-    this.fetchPlayCount = this.fetchPlayCount.bind(this);
     this.submitSignup = this.submitSignup.bind(this);
     this.submitLogin = this.submitLogin.bind(this);
-     
-    this.setUser = this.setUser.bind(this);
-    this.getUser = this.getUser.bind(this);
-
-  }
-
-  setUser(user) {
-    this.setState({
-      user: user
-    });
-  }
-  getUser() {
-    return this.state.user;
-  }
-
-  fetchPlayCount () { 
-    // wrap your
-    // logic fetching all the weather api data into a method.
-    var url = '/tracks/';
-    fetch(url).then(function (response) {
-      return response.json();
-    }).then((trackObj) => {
-      if (trackObj !== undefined) {
-        console.log(trackObj);
-        this.setState({ 
-          playCount: trackObj
-        });
-      }  else {
-        console.log('defined');
-      }
-    });
-  }
-  componentDidMount(){
-    fetch('/spotify').then((webObj)=>{
-      return webObj.json(); // auth token
-    }).then((data)=>{
-      this.setState({
-        initialized: true,
-        musicData: data
-      }); 
-    }); 
-    this.fetchPlayCount();
+    this.logout = this.logout.bind(this);
   }
 
   submitSignup(signupObj) {
     return new Promise((resolve, reject)=>{
       var url = '/signup';
-      fetch(url, {
-          method: "POST",
-          headers:{"Content-Type":"application/json"}, 
-          body: JSON.stringify(
-            {
+      axios.post(url, {
               firstName: signupObj.firstName,
               lastName: signupObj.lastName,
               email: signupObj.email,
               password: signupObj.password
-            }
-          )
-        }).then((response)=> { 
-          return response.json();
-        }).then((userObj) => { // USE ARROW NOTATION TO KEEP THIS
-          // the thing returned is the thing in the res.json of the app.js save
-          if (userObj) { 
-            this.setState({
-              firstName: userObj.firstName,
-              message: userObj.message,
-              lastName: userObj.lastName,
-              user: {
-                name: userObj.firstName,
-                lastName: userObj.lastName,
-                email: userObj.email
-              }
-            }); 
-            resolve();
-          }  else {
-            reject();
+            }).then((userObj) => {
+               if (userObj) { 
+                this.setState({
+                  user:userObj.data
+                }); 
+                 resolve();
+                } else {
+                reject();
           }
       }); 
     })
   }
 
+  logout(){
+    return new Promise((resolve, reject)=>{
+      axios.post('/logout').then((res)=>{
+        if (res.error){
+          reject(res.error);
+        } else {
+          resolve(res);
+        }
+      });
+    });
+  }
+
   submitLogin(loginObj) {
     return new Promise((resolve, reject)=>{
-
       var url = '/login'; 
-      fetch(url, {                      
-          method: "POST",
-          headers:{"Content-Type":"application/json"}, 
-          body: JSON.stringify(
-            {
-              email: loginObj.email,
-              password: loginObj.password
-            }
-          )
-        }).then(function (response) {
-          return response.json();
+        axios.post(url, {
+          username: loginObj.username,
+          password: loginObj.password
       }).then((userObj) => {
-        if (userObj.success) { 
-
-          this.setState({
-            message: userObj.message,
-            email: userObj.email,
-            success: userObj.success
-          })
-          this.setUser({firstName: userObj.user.firstName,lastName: userObj.user.lastName, email: userObj.user.email});
-          resolve();
-
-        }else{
-          console.log(userObj.message);
-          this.setState({
-            message: userObj.message,
-            email: userObj.email,
-            success: userObj.success
+        if (userObj) { 
+          axios.get('/user').then((res)=>{
+              this.setState({
+                user:res.data
+              })
+              resolve();
           });
+        }else{
+          console.log(userObj);
+          reject();
         }
       }); 
     }
-  )}
-
+  )};
   render() { 
-    if (this.state.initialized) {
     return (
       <div className="App">
         <Router>
             <div>
-            <header><Menu getUser={this.getUser}/></header>
-            
+              {/* here's how we are passing our user into the navbar - anytime
+                a user changes from a login, the <Menu /> will get rerendered with
+                the new user. No other state is handled here now. 
+            */}
+            <header><Menu logout={this.logout} user={this.state.user}/></header>
         <Feature/> 
             <div className="container">
-              <Route exact path='/' render={() => <TrackBlock getUser={this.getUser} musicData={this.state.musicData} playCount={this.state.playCount} />} />
-              <Route path='/login' render={() => <Login history={this.props.history} setUser={this.setUser} submitLogin={this.submitLogin} success={this.state.success} />} />
+              <Route exact path='/' render={() => <About />} />
+              <Route path='/login' render={() => <Login history={this.props.history} submitLogin={this.submitLogin} />} />
               <Route path='/signup' render={() => <SignUp submitSignup={this.submitSignup} />} />
-              <Route path='/about' render={() => <About />} />
-              <Route path='/favorites' render={()=> <Favorites getUser={this.getUser} musicData={this.state.musicData} playCount={this.state.playCount} />} />
+              <Route path='/findSongs' render={() =>  <TrackBlock musicData={this.state.musicData} playCount={this.state.playCount} />} />
+              <Route path='/favorites' render={()=> <Favorites musicData={this.state.musicData} playCount={this.state.playCount} />} />
             </div>
         <Footer />
         </div>
         </Router>
       </div>
       );
-    } else {
-      return (
-        <div className="loading"><img alt="Loading..." src="./music.gif" /></div>
-      )
-    }
   }
 }
 

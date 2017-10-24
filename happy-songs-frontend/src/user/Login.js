@@ -10,7 +10,7 @@ class Login extends Component{
     this.inputemailChange = this.inputemailChange.bind(this);
     this.inputpasswordChange = this.inputpasswordChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
-    
+
     this.state = { 
       email: '',
       password: '', 
@@ -23,7 +23,7 @@ class Login extends Component{
   handleLogin() {
     // this makes an obj to retun
     this.props.submitLogin({
-      email: this.state.email,
+      username: this.state.email,
       password: this.state.password
     }).then(()=>{
       this.props.history.push("/"); 

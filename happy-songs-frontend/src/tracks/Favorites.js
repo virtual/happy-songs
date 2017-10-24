@@ -1,15 +1,42 @@
 import React, { Component } from 'react';
-import TrackBlock from './TrackBlock';
+import {withRouter} from "react-router-dom";
+var axios = require('axios');
 
-export default class Favorites extends Component{
-  render(){ 
+class Favorites extends Component{
+
+  constructor(props){
+    super(props);
+    this.state = {
+      favoritesTracks:[]
+    }
+  }
+  
+  componentDidMount(){
+    axios.get('user').then((user)=>{
+      if (user.data.err){
+        this.props.history.push("/login");
+      }
+      this.setState({
+        favoriteTracks:user.data.favoriteTracks
+      });
+    });
+  }
+
+  render(){
+    let favorites;
+    if (this.state.favoriteTracks){
+      favorites = this.state.favoriteTracks.map((track, i)=>{
+          return <div key={i}>Here's your favorite track id: {track.trackId}</div>
+      });
+    }
     return(
       <div>
         <h1>Favoritos</h1>
-        <p>{this.props.getUser().firstName}</p>
-        <TrackBlock musicData={this.props.musicData} playCount={this.props.playCount} />
-
+        {favorites}  
+        <h1>...now buzz off</h1>
       </div>
     );
   };
 }
+
+export default withRouter(Favorites);

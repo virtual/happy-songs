@@ -29,7 +29,7 @@ class SignUp extends Component{
       email: this.state.email,
       password: this.state.password
     }).then(()=>{
-     this.props.history.push("/");
+   this.props.history.push("/");
     });
   }
   inputfirstNameChange(event) {

@@ -6,14 +6,45 @@ import TrackName from './TrackName';
 import { Media } from 'reactstrap';
 import Play from './Play';
 import './tracks.css';
+import {withRouter} from "react-router-dom";
 
-export default class TrackBlock extends Component{
+var axios = require('axios');
+
+class TrackBlock extends Component{
+
+  constructor(){
+    super();
+    this.user;
+    this.playCount = [];  
+    this.state = {
+      musicData:{ 
+        tracks:{
+          items:[]
+        }
+      }
+    }
+  }
+
+  componentDidMount(){
+    let getSpotify = axios.get('/spotify');
+    let getTracks = axios.get('/tracks');
+
+    Promise.all([getSpotify, getTracks]).then((reses)=>{
+      if (reses[0].data.err){
+        this.props.history.push("/login");
+      }
+      this.tracks = reses[1].data;
+      this.setState({
+        musicData: reses[0].data
+      });
+    });
+  }
+
   render(){ 
-    console.log(this.props.playCount);
     let albums = [];
-    this.props.musicData.tracks.items.slice(0, 3).forEach((e, i)=>{
+    this.state.musicData.tracks.items.slice(0, 3).forEach((e, i)=>{
       let trackid = e.track.id;
-      let matchTrack = this.props.playCount.find((track)=>{
+        let matchTrack = this.tracks.find((track)=>{
         return track.trackId===trackid;
       });
       if (matchTrack === undefined) {
@@ -23,14 +54,12 @@ export default class TrackBlock extends Component{
       }  
       albums.push(<div key={i}>
         <AlbumCover trackid={trackid} cover={e.track.album.images[0].url} link={e.track.album.external_urls.spotify} /> 
-        <Play getUser={this.props.getUser} trackid={trackid} link={e.track.artists["0"].external_urls.spotify} playCount={matchTrack.playCount} />
+        <Play trackid={trackid} link={e.track.artists["0"].external_urls.spotify} playCount={matchTrack.playCount} />
         <Media body>
           <Artist trackid={trackid} name={e.track.artists["0"].name} link={e.track.artists["0"].external_urls.spotify} />
           <Media heading>
-
             <TrackName trackid={trackid} link={e.track.external_urls.spotify} name={e.track.name} playCount={matchTrack.playCount} /> 
           </Media>
-          
         </Media> 
         </div>);
     })
@@ -43,4 +72,7 @@ export default class TrackBlock extends Component{
     );
   };
 }
+
+export default withRouter(TrackBlock);
+
 
