@@ -7,7 +7,6 @@ import { Media } from 'reactstrap';
 import Play from './Play';
 import './tracks.css';
 import {withRouter} from "react-router-dom";
-
 var axios = require('axios');
 
 class TrackBlock extends Component{
