@@ -7,6 +7,7 @@ var mongoose = require('mongoose');
 mongoose.connect("mongodb://localhost/happysongs");
 var User = require("./models/User");
 var Track = require("./models/Track");
+app.use(express.static('public'));
 let db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", () => {
@@ -18,6 +19,10 @@ app.use(bodyParser.json({
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
+app.get('/', (req, res)=>{
+  res.sendfile('./build/index.html')
+});
 
 // ALL THINGS TRACKS
 app.get("/tracks", (req, res, next) => {
@@ -191,13 +196,13 @@ app.post('/login', function (req, res, next) {
   });
 });
 
-var spotifyApi;
-let getSpotify = function () {
-  spotifyApi = new SpotifyWebApi({
-    clientId: config.spotify.id,
-    clientSecret: config.spotify.secret,
-    redirectUri: 'http://localhost:3000/callback'
-  });
+//var spotifyApi;
+// let getSpotify = function () {
+//   spotifyApi = new SpotifyWebApi({
+//     clientId: config.spotify.id,
+//     clientSecret: config.spotify.secret,
+//     redirectUri: 'http://localhost:3000/callback'
+//   });
 
   // Retrieve an access token
 //   spotifyApi.clientCredentialsGrant()
