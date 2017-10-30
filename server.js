@@ -16,6 +16,7 @@ db.once("open", () => {
 app.use(bodyParser.json({
   type: "application/json"
 }));
+
 app.use(bodyParser.urlencoded({
   extended: true
 }));
