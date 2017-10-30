@@ -2,7 +2,7 @@ let express = require("express");
 let app = express();
 let bodyParser = require("body-parser");
 var SpotifyWebApi = require('spotify-web-api-node');
-var config = require('./config.js');
+//var config = require('./config.js');
 var mongoose = require('mongoose');
 mongoose.connect("mongodb://localhost/happysongs");
 var User = require("./models/User");
