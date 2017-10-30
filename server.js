@@ -133,6 +133,7 @@ app.post("/signup", (req, res, next) => {
         }
       });
 
+      
       // if (user) {
       //   if (email === user.email) {
       //     res.json({
