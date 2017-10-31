@@ -2,7 +2,7 @@ let express = require("express");
 let app = express();
 let bodyParser = require("body-parser");
 var SpotifyWebApi = require('spotify-web-api-node');
-var config = require('./config.js');
+//var config = require('./config.js');
 var mongoose = require('mongoose');
 mongoose.connect("mongodb://localhost/happysongs");
 var User = require("./models/User");
@@ -222,12 +222,13 @@ let getSpotify = function () {
 }
 
 app.get("/spotify", (req, res, next) => {
-   spotifyApi.getPlaylist('satinflame', '2TOOXGh88YHh2keEr66fMu').then(function (data) {
-     res.json(data.body);
-   });
+  //  spotifyApi.getPlaylist('satinflame', '2TOOXGh88YHh2keEr66fMu').then(function (data) {
+  //    res.json(data.body);
+  //  });
+  res.json('aint no sunshine');
 });
 
 app.listen(5000, () => {
   console.log('listening on port 5000 ');
-  getSpotify();
+//  getSpotify();
 });
