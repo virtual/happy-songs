@@ -2,7 +2,7 @@ let express = require("express");
 let app = express();
 let bodyParser = require("body-parser");
 var SpotifyWebApi = require('spotify-web-api-node');
-//var config = require('./config.js');
+var config = require('./config.js');
 var mongoose = require('mongoose');
 mongoose.connect("mongodb://localhost/happysongs");
 var User = require("./models/User");
@@ -133,7 +133,7 @@ app.post("/signup", (req, res, next) => {
         }
       });
 
-      
+
       // if (user) {
       //   if (email === user.email) {
       //     res.json({
@@ -198,36 +198,36 @@ app.post('/login', function (req, res, next) {
   });
 });
 
-//var spotifyApi;
-// let getSpotify = function () {
-//   spotifyApi = new SpotifyWebApi({
-//     clientId: config.spotify.id,
-//     clientSecret: config.spotify.secret,
-//     redirectUri: 'http://localhost:3000/callback'
-//   });
+var spotifyApi;
+let getSpotify = function () {
+  spotifyApi = new SpotifyWebApi({
+    clientId: config.spotify.id,
+    clientSecret: config.spotify.secret,
+    redirectUri: 'http://localhost:3000/callback'
+  });
 
   // Retrieve an access token
-//   spotifyApi.clientCredentialsGrant()
-//     .then(function (data) {
-//       console.log('The access token expires in ' + data.body['expires_in']);
-//       console.log('The access token is ' + data.body['access_token']);
+  spotifyApi.clientCredentialsGrant()
+    .then(function (data) {
+      console.log('The access token expires in ' + data.body['expires_in']);
+      console.log('The access token is ' + data.body['access_token']);
 
-//       // Save the access token so that it's used in future calls
-//       spotifyApi.setAccessToken(data.body['access_token']);
-//       auth = data.body['access_token'];
-//     }, function (err) {
-//       console.log('Something went wrong when retrieving an access token ' + err.message);
-//     });
-//   if (config.debug) console.log('A call was made to the spotify endpoint');
-// }
+      // Save the access token so that it's used in future calls
+      spotifyApi.setAccessToken(data.body['access_token']);
+      auth = data.body['access_token'];
+    }, function (err) {
+      console.log('Something went wrong when retrieving an access token ' + err.message);
+    });
+  if (config.debug) console.log('A call was made to the spotify endpoint');
+}
 
 app.get("/spotify", (req, res, next) => {
-  spotifyApi.getPlaylist('satinflame', '2TOOXGh88YHh2keEr66fMu').then(function (data) {
-    res.json(data.body);
-  });
+   spotifyApi.getPlaylist('satinflame', '2TOOXGh88YHh2keEr66fMu').then(function (data) {
+     res.json(data.body);
+   });
 });
 
 app.listen(5000, () => {
   console.log('listening on port 5000 ');
-  //getSpotify();
+  getSpotify();
 });
