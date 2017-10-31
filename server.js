@@ -7,12 +7,20 @@ var SpotifyWebApi = require('spotify-web-api-node');
 //mongoose.connect("mongodb://localhost/happysongs");
 var User = require("./models/User");
 var Track = require("./models/Track");
+var path = require('path');
 app.use(express.static('./happy-songs-frontend/build'));
 //let db = mongoose.connection;
 //db.on("error", console.error.bind(console, "connection error: "));
 //db.once("open", () => {
 //  console.log("connected to db");
 //});
+
+
+// app.get('*', (req, res) => {
+//   console.log('achoo')
+//   res.sendFile(path.join(__dirname, './happy-songs-frontend/build/index.html'));
+// });
+
 app.use(bodyParser.json({
   type: "application/json"
 }));
@@ -50,6 +58,8 @@ app.post("/tracks", (req, res, next) => {
     }
   });
 });
+
+
 
 app.put("/tracks/:trackId", (req, res, next) => {
   Track.findOneAndUpdate({
