@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 mongoose.connect("mongodb://localhost/happysongs");
 var User = require("./models/User");
 var Track = require("./models/Track");
-app.use(express.static('public'));
+app.use(express.static('./happy-songs-frontend/build'));
 let db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", () => {
@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.get('/', (req, res)=>{
-  res.sendfile('./build/index.html')
+  res.sendfile('index.html')
 });
 
 // ALL THINGS TRACKS
