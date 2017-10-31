@@ -3,16 +3,16 @@ let app = express();
 let bodyParser = require("body-parser");
 var SpotifyWebApi = require('spotify-web-api-node');
 //var config = require('./config.js');
-var mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost/happysongs");
+//var mongoose = require('mongoose');
+//mongoose.connect("mongodb://localhost/happysongs");
 var User = require("./models/User");
 var Track = require("./models/Track");
 app.use(express.static('./happy-songs-frontend/build'));
-let db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error: "));
-db.once("open", () => {
-  console.log("connected to db");
-});
+//let db = mongoose.connection;
+//db.on("error", console.error.bind(console, "connection error: "));
+//db.once("open", () => {
+//  console.log("connected to db");
+//});
 app.use(bodyParser.json({
   type: "application/json"
 }));
