@@ -15,11 +15,9 @@ app.use(express.static('./happy-songs-frontend/build'));
 //  console.log("connected to db");
 //});
 
-
-// app.get('*', (req, res) => {
-//   console.log('achoo')
-//   res.sendFile(path.join(__dirname, './happy-songs-frontend/build/index.html'));
-// });
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './happy-songs-frontend/build/index.html'));
+});
 
 app.use(bodyParser.json({
   type: "application/json"
