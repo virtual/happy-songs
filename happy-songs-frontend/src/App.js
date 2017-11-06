@@ -11,7 +11,10 @@ import {
 import Login from './user/Login';
 import SignUp from './user/SignUp';
 import About from './features/About';
-import Favorites from './tracks/Favorites'
+import {Provider} from 'mobx-react';
+import UserStore from './stores/UserStore';
+import Favorites from './tracks/Favorites';
+var axios = require('axios');
 
 class App extends Component {
   constructor() {
@@ -28,7 +31,7 @@ class App extends Component {
     }
     this.fetchPlayCount = this.fetchPlayCount.bind(this);
     this.submitSignup = this.submitSignup.bind(this);
-    this.submitLogin = this.submitLogin.bind(this);
+    // this.submitLogin = this.submitLogin.bind(this);
      
     this.setUser = this.setUser.bind(this);
     this.getUser = this.getUser.bind(this);
@@ -110,47 +113,12 @@ class App extends Component {
     }); 
   }
 
-  submitLogin(loginObj) {
-    var url = '/login'; 
-    fetch(url, {                      
-        method: "POST",
-        headers:{"Content-Type":"application/json"}, 
-        body: JSON.stringify(
-          {
-            email: loginObj.email,
-            password: loginObj.password
-          }
-        )
-      }).then(function (response) {
-        return response.json();
-    }).then((userObj) => {
-      console.log("HI AND STUFF");
-      console.log(userObj);
-      if (userObj.success) { 
-        this.setState({
-          message: userObj.message,
-          email: userObj.email,
-          success: userObj.success
-        })
-        // we returned a user
-        // this.history.push("/");
-        //<Router history={history} />
-        this.setUser({firstName: userObj.user.firstName,lastName: userObj.user.lastName, email: userObj.user.email});
-        //return (userObj);
-      }else{
-        console.log(userObj.message);
-        this.setState({
-          message: userObj.message,
-          email: userObj.email,
-          success: userObj.success
-        });
-      }
-    }); 
-  }
+  
   render() { 
     if (this.state.initialized) {
     return (
       <div className="App">
+        <Provider userStore={new UserStore()}>
         <Router>
             <div>
             <header><Menu getUser={this.getUser}/></header>
@@ -158,7 +126,7 @@ class App extends Component {
         <Feature/> 
             <div className="container">
               <Route exact path='/' render={() => <TrackBlock getUser={this.getUser} musicData={this.state.musicData} playCount={this.state.playCount} />} />
-              <Route path='/login' render={() => <Login history={this.props.history} setUser={this.setUser} submitLogin={this.submitLogin} success={this.state.success} />} />
+              <Route path='/login' render={() => <Login history={this.props.history}  />} />
               <Route path='/signup' render={() => <SignUp submitSignup={this.submitSignup} />} />
               <Route path='/about' render={() => <About />} />
               <Route path='/favorites' render={()=> <Favorites getUser={this.getUser} musicData={this.state.musicData} playCount={this.state.playCount} />} />
@@ -166,6 +134,7 @@ class App extends Component {
         <Footer />
         </div>
         </Router>
+        </Provider>
       </div>
       );
     } else {

@@ -81,6 +81,17 @@ app.get("/tracks/:id", function (req, res) {
 });
 
 // ALL THINGS USERS
+app.post('/getUser', (req, res, next) => {
+  User.findById( req.body.user.id, (err, userObj)=>{
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(userObj);
+      done(null, userObj);
+    }
+  }) 
+});
+
 app.post("/signup", (req, res, next) => {
   var user = new User();
   user.firstName = req.body.firstName;
