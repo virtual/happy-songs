@@ -40,11 +40,26 @@ export default class UserStore {
     });
   }
 
-  
 
-
-
+  submitSignup(signupObj) {
+    var url = '/signup';
+    return new Promise((resolve, reject) => {
+    axios.post(url, { 
+      firstName: signupObj.firstName,
+      lastName: signupObj.lastName,
+      email: signupObj.email,
+      password: signupObj.password}).then((res)=>{
+        console.log(res.data);
+        if (res.data !== undefined) { 
+          this.user = res.data.user;
+          this.message = res.data.message;
+          this.success = res.data.success;
+        } else {
+          reject(res.data);
+        }
+        resolve(res.data)
+      });
+    });
+  }
 }
-  
-
     

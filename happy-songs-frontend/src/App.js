@@ -30,7 +30,7 @@ class App extends Component {
       success: null
     }
     this.fetchPlayCount = this.fetchPlayCount.bind(this);
-    this.submitSignup = this.submitSignup.bind(this);
+    // this.submitSignup = this.submitSignup.bind(this);
     // this.submitLogin = this.submitLogin.bind(this);
      
     this.setUser = this.setUser.bind(this);
@@ -76,42 +76,7 @@ class App extends Component {
     }); 
     this.fetchPlayCount();
   }
-  submitSignup(signupObj) {
-    var url = '/signup';
-   
-    fetch(url, {
-        method: "POST",
-        headers:{"Content-Type":"application/json"}, 
-        body: JSON.stringify(
-          {
-            firstName: signupObj.firstName,
-            lastName: signupObj.lastName,
-            email: signupObj.email,
-            password: signupObj.password
-          }
-        )
-      }).then((response)=> { 
-        return response.json();
-      }).then((userObj) => { // USE ARROW NOTATION TO KEEP THIS
-        //console.log("userObj"+userObj); // echos in app server terminal
-        // the thing returned is the thing in the res.json of the app.js save
-        if (userObj !== undefined) { 
-          this.setState({
-            firstName: userObj.firstName,
-            message: userObj.message,
-            lastName: userObj.lastName,
-            user: {
-              name: userObj.firstName,
-              lastName: userObj.lastName,
-              email: userObj.email
-            }
-          }); 
-        
-        }  else {
-          console.log('user add failed');
-        }
-    }); 
-  }
+  
 
   
   render() { 
@@ -121,13 +86,13 @@ class App extends Component {
         <Provider userStore={new UserStore()}>
         <Router>
             <div>
-            <header><Menu getUser={this.getUser}/></header>
+            <header><Menu /></header>
             
         <Feature/> 
             <div className="container">
               <Route exact path='/' render={() => <TrackBlock getUser={this.getUser} musicData={this.state.musicData} playCount={this.state.playCount} />} />
               <Route path='/login' render={() => <Login history={this.props.history}  />} />
-              <Route path='/signup' render={() => <SignUp submitSignup={this.submitSignup} />} />
+              <Route path='/signup' render={() => <SignUp history={this.props.history} />} />
               <Route path='/about' render={() => <About />} />
               <Route path='/favorites' render={()=> <Favorites getUser={this.getUser} musicData={this.state.musicData} playCount={this.state.playCount} />} />
             </div>
