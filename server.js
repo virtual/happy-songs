@@ -26,6 +26,7 @@ passport.use(new LocalStrategy(
   function(email, password, done) {
     User.findOne({ email: email }, function(error, user) {
       if (hash.verify(password, user.password)) {
+        console.log('this worked')
         done(null, user);
       } else if (user || !error) {
         done(error, null);
