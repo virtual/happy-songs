@@ -26,7 +26,7 @@ passport.use(new LocalStrategy(
   function(email, password, done) {
     User.findOne({ email: email }, function(error, user) {
       if (hash.verify(password, user.password)) {
-        console.log('this worked')
+        console.log('we are hereererere')
         done(null, user);
       } else if (user || !error) {
         done(error, null);
@@ -51,6 +51,17 @@ db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", () => {
   console.log("connected to db");
 });
+app.post('/getUser', (req, res, next) => {
+  User.findById( req.body.user.id, (err, userObj)=>{
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(userObj);
+      done(null, userObj);
+    }
+  }) 
+});
+
 
 app.post("/tracks", function(req, res, next){
   if (req.user){
@@ -80,13 +91,14 @@ app.post('/logout', (req, res)=>{
   
 app.post('/login',function(req, res, next){
   passport.authenticate('local', function(err, user){
+    console.log(user);
     if (err){
       console.log(err);
     }
     req.logIn(user, function(error) {
-                    if (error) return next(error);
-                    res.json(user);
-                });
+      if (error) return next(error);
+        res.json(user);
+      });
   })(req,res, next);
 });
 

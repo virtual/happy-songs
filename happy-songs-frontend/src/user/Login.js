@@ -4,30 +4,39 @@ import {
   Redirect, Link
 } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
-class Login extends Component{
+import { inject, observer } from 'mobx-react';
+
+var Login = observer (class extends Component{
   constructor(){
     super();
     this.inputemailChange = this.inputemailChange.bind(this);
     this.inputpasswordChange = this.inputpasswordChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
-
+    
     this.state = { 
       email: '',
-      password: '', 
-      message: '',
-      link: "",
-      success: null
+      password: '' 
     }
   }
-  
+
+
   handleLogin() {
     // this makes an obj to retun
-    this.props.submitLogin({
-      username: this.state.email,
+    return new Promise ((resolve, reject) => {
+      this.props.userStore.submitLogin({
+      email: this.state.email,
       password: this.state.password
-    }).then(()=>{
-      this.props.history.push("/"); 
-    })
+    }).then((res)=>{
+      console.log(res);
+      if (this.props.userStore.success){
+
+        this.props.history.push("/"); 
+      }  
+      resolve(res) ;
+      }).catch(e => {
+        console.log(e);
+      }); 
+    });
   }
 
   inputemailChange(event) {
@@ -40,7 +49,7 @@ class Login extends Component{
     return(
       <div>
         <h1 className="mb-3">Login</h1>
-        {this.state.message} - {this.props.success}
+        {this.props.userStore.message} - {this.props.userStore.success}
         <FormGroup>
         <Label for="email">Email</Label>{' '}
         <Input type="email" onChange={this.inputemailChange} name="email" id="email" placeholder="you@something.com" />
@@ -56,6 +65,6 @@ class Login extends Component{
       </div>
     );
   };
-}
+});
 
-export default withRouter(Login);
+export default withRouter(inject("userStore")(Login));

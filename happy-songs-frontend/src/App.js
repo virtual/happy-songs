@@ -13,8 +13,10 @@ import {
 import Login from './user/Login';
 import SignUp from './user/SignUp';
 import About from './features/About';
+import {Provider} from 'mobx-react';
+import UserStore from './stores/UserStore';
 import Favorites from './tracks/Favorites';
-var axios = require('axios');
+var axios = require('axios'); 
 
 class App extends Component {
   constructor() {
@@ -23,7 +25,7 @@ class App extends Component {
       user:null
     }
     this.submitSignup = this.submitSignup.bind(this);
-    this.submitLogin = this.submitLogin.bind(this);
+    // this.submitLogin = this.submitLogin.bind(this);
     this.logout = this.logout.bind(this);
   }
 
@@ -60,30 +62,11 @@ class App extends Component {
     });
   }
 
-  submitLogin(loginObj) {
-    return new Promise((resolve, reject)=>{
-      var url = '/login'; 
-        axios.post(url, {
-          username: loginObj.username,
-          password: loginObj.password
-      }).then((userObj) => {
-        if (userObj) { 
-          axios.get('/user').then((res)=>{
-              this.setState({
-                user:res.data
-              })
-              resolve();
-          });
-        }else{
-          console.log(userObj);
-          reject();
-        }
-      }); 
-    }
-  )};
+   
   render() { 
     return (
       <div className="App">
+        <Provider userStore={new UserStore()}>
         <Router>
             <div>
               {/* here's how we are passing our user into the navbar - anytime
@@ -94,14 +77,15 @@ class App extends Component {
         <Feature/> 
             <div className="container">
               <Route exact path='/' render={() => <About />} />
-              <Route path='/login' render={() => <Login history={this.props.history} submitLogin={this.submitLogin} />} />
-              <Route path='/signup' render={() => <SignUp submitSignup={this.submitSignup} />} />
+              <Route path='/login' render={() => <Login history={this.props.history}  />} />
+                <Route path='/signup' render={() => <SignUp submitSignup={this.submitSignup} />} />
               <Route path='/findSongs' render={() =>  <TrackBlock musicData={this.state.musicData} playCount={this.state.playCount} />} />
               <Route path='/favorites' render={()=> <Favorites musicData={this.state.musicData} playCount={this.state.playCount} />} />
             </div>
         <Footer />
         </div>
         </Router>
+        </Provider>
       </div>
       );
   }
