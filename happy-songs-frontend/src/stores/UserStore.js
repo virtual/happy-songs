@@ -25,18 +25,23 @@ export default class UserStore {
     console.log(loginObj);
     return new Promise((resolve, reject) => {
     var url = '/login'; 
-    axios.post(url, {email: loginObj.email,
+
+ 
+    axios.post(url, {username: loginObj.email,
       password: loginObj.password}).then((res)=>{
-        if (res.data.success) { 
+        console.log(res)
+        if (res.status === 200) { 
             this.user = res.data.user;
-            this.message = res.data.message;
-            this.success = res.data.success;
+            // this.message = res.data.message;
+            this.success = true;
+
             // this.props.history.push("/"); 
         } else {
           reject(res.data);
         }
         resolve(res.data)
       });
+
     });
   }
 
@@ -63,3 +68,11 @@ export default class UserStore {
   }
 }
     
+
+    }).catch(e => {
+        console.log(e);
+      });  
+  }
+  
+}
+

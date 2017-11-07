@@ -1,18 +1,14 @@
 var mongoose = require("mongoose");
+var Hash = require('password-hash');
+var Schema = mongoose.Schema;
+
 var UserSchema = new mongoose.Schema({
-  firstName: String,
-  lastName: String,
-  //email: String,
+  username: String,
   email: { type: String, required: true, unique: true },
-  password: String
+  password:  { type: String, set: function(newValue) {
+		return Hash.isHashed(newValue) ? newValue : Hash.generate(newValue);
+  }},
+  favoriteTracks: [{type: Schema.Types.ObjectId, ref: 'Track', unique:true}]
 });
-/*
-Use Populate
-link trackSchema and UserSchema
-make login page
-store all the things
-Update trackcount without connecting to user
-then connect trackcount with user
-(this isn't in order)
-*/
+
 module.exports = mongoose.model('User', UserSchema);

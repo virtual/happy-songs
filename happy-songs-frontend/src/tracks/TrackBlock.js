@@ -7,6 +7,39 @@ import { Media } from 'reactstrap';
 import Play from './Play';
 import { inject, observer } from 'mobx-react';
 import './tracks.css';
+import {withRouter} from "react-router-dom";
+var axios = require('axios');
+
+class TrackBlock extends Component{
+
+  constructor(){
+    super();
+    this.user;
+    this.playCount = [];  
+    this.state = {
+      musicData:{ 
+        tracks:{
+          items:[]
+        }
+      }
+    }
+  }
+
+  componentDidMount(){
+    let getSpotify = axios.get('/spotify');
+    let getTracks = axios.get('/tracks');
+
+    Promise.all([getSpotify, getTracks]).then((reses)=>{
+      if (reses[0].data.err){
+        this.props.history.push("/login");
+      }
+      this.tracks = reses[1].data;
+      this.setState({
+        musicData: reses[0].data
+      });
+    });
+  }
+
 
 
 var axios = require('axios');
@@ -40,6 +73,7 @@ var TrackBlock = observer (class extends Component{
       let trackid = e.track.id;
      
       let matchTrack = music.playCount.find((track)=>{
+
         return track.trackId===trackid;
       });
       if (matchTrack === undefined) {
@@ -53,10 +87,8 @@ var TrackBlock = observer (class extends Component{
         <Media body>
           <Artist trackid={trackid} name={e.track.artists["0"].name} link={e.track.artists["0"].external_urls.spotify} />
           <Media heading>
-
             <TrackName trackid={trackid} link={e.track.external_urls.spotify} name={e.track.name} playCount={matchTrack.playCount} /> 
           </Media>
-          
         </Media> 
         </div>);
     })
@@ -79,4 +111,7 @@ var TrackBlock = observer (class extends Component{
 });
 
 export default inject("trackStore")(TrackBlock);
+
+export default withRouter(TrackBlock);
+
 

@@ -15,13 +15,16 @@ var Login = observer (class extends Component{
     
     this.state = { 
       email: '',
+
       password: ''
       // message: '',
       // link: "",
       // success: null
+
     }
   }
-  
+
+
   handleLogin() {
     // this makes an obj to retun
     return new Promise ((resolve, reject) => {
@@ -29,11 +32,13 @@ var Login = observer (class extends Component{
       email: this.state.email,
       password: this.state.password
     }).then((res)=>{
+
       if (this.props.userStore.success){
         this.props.history.push("/"); 
       }  
       resolve(res) ;
       });
+
     });
   }
 

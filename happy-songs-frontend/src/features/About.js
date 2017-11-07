@@ -4,7 +4,7 @@ export default class About extends Component{
   render(){ 
     return(
       <article>
-        <h1>About Us</h1>
+        <h1>What is Happy Songs?</h1>
         <img src="https://i.redditmedia.com/x8SDXoiMWr_LVz6TMRVwML65SAtGUGQeTBcqLQTC8lM.jpg?w=320&s=8b24849df48a723b9328295a807611fb" alt="How do you pronounce SQL"/>
         <p>Using sophisticated technology, we are making you less unhappy for your travels and travails.</p>
         <p>We use the (insert science jargon here) to make you happy.*</p>

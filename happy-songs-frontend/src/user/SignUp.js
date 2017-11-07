@@ -30,12 +30,14 @@ var SignUp = observer (class extends Component{
       lastName: this.state.lastName,
       email: this.state.email,
       password: this.state.password
+
     }).then((res)=>{
       if (this.props.userStore.success){
         this.props.history.push("/");
       }  
       resolve(res) ;
       });
+
     });
   }
   
