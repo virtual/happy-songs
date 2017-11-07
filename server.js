@@ -15,6 +15,7 @@ var LocalStrategy = require('passport-local').Strategy;
 app.use(bodyParser.json({
   type: "application/json"
 }));
+
 app.use(bodyParser.urlencoded({
   extended: false
 }));
@@ -111,6 +112,8 @@ app.get('/user', (req, res)=>{
     res.json({err: {msg:'aint noone signed in', code:1}});
   }
 });
+
+
 
 app.put("/tracks/:trackId", (req, res, next) => {
   if (req.user){
@@ -264,5 +267,5 @@ app.get("/spotify", (req, res, next) => {
 
 app.listen(5000, () => {
   console.log('listening on port 5000 ');
-  getSpotify();
+//  getSpotify();
 });
