@@ -20,10 +20,13 @@ export default class UserStore {
     // }
   }
 
+
   submitLogin(loginObj) {
     console.log(loginObj);
     return new Promise((resolve, reject) => {
     var url = '/login'; 
+
+ 
     axios.post(url, {username: loginObj.email,
       password: loginObj.password}).then((res)=>{
         console.log(res)
@@ -31,12 +34,41 @@ export default class UserStore {
             this.user = res.data.user;
             // this.message = res.data.message;
             this.success = true;
+
             // this.props.history.push("/"); 
         } else {
           reject(res.data);
         }
         resolve(res.data)
       });
+
+    });
+  }
+
+
+  submitSignup(signupObj) {
+    var url = '/signup';
+    return new Promise((resolve, reject) => {
+    axios.post(url, { 
+      firstName: signupObj.firstName,
+      lastName: signupObj.lastName,
+      email: signupObj.email,
+      password: signupObj.password}).then((res)=>{
+        console.log(res.data);
+        if (res.data !== undefined) { 
+          this.user = res.data.user;
+          this.message = res.data.message;
+          this.success = res.data.success;
+        } else {
+          reject(res.data);
+        }
+        resolve(res.data)
+      });
+    });
+  }
+}
+    
+
     }).catch(e => {
         console.log(e);
       });  
@@ -44,4 +76,3 @@ export default class UserStore {
   
 }
 
-    

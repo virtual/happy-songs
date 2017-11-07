@@ -4,7 +4,9 @@ import {
   Redirect
 } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
-class SignUp extends Component{
+import { inject, observer } from 'mobx-react';
+
+var SignUp = observer (class extends Component{ 
   constructor() {
     super();
     this.inputfirstNameChange = this.inputfirstNameChange.bind(this);
@@ -16,22 +18,31 @@ class SignUp extends Component{
       firstName: '',
       lastName: '',
       email: '',
-      password: '',
-      message: ''
+      password: ''
     }
   }
 //submitSignup() is in App.js
   handleSignup() {
     // this makes an obj to retun
-    this.props.submitSignup({
+    return new Promise ((resolve, reject) => {
+    this.props.userStore.submitSignup({
       firstName: this.state.firstName,      
       lastName: this.state.lastName,
       email: this.state.email,
       password: this.state.password
-    }).then(()=>{
-   this.props.history.push("/");
+
+    }).then((res)=>{
+      if (this.props.userStore.success){
+        this.props.history.push("/");
+      }  
+      resolve(res) ;
+      });
+
     });
   }
+  
+
+
   inputfirstNameChange(event) {
     this.setState({firstName: event.target.value});
   }
@@ -71,6 +82,6 @@ class SignUp extends Component{
       </div>
     );
   };
-}
+});
 
-export default withRouter(SignUp);
+export default withRouter(inject("userStore")(SignUp));

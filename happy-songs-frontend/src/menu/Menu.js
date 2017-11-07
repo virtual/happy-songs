@@ -1,11 +1,14 @@
-import React from 'react';
+import React,{Component} from 'react';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import {
-  Link
+  Link, withRouter
 } from 'react-router-dom';
+
+import { inject, observer } from 'mobx-react';
 var axios = require('axios');
 
-export default class Menu extends React.Component {
+var Menu = observer (class extends Component{
+
   constructor(props) {
     super(props);
     this.logout = this.logout.bind(this);
@@ -27,6 +30,13 @@ export default class Menu extends React.Component {
     } else {
       return "Not Logged In"
     }
+
+ 
+    console.log(this.props.userStore.user);
+    let personalization = '';
+    if (this.props.userStore.user) {
+      personalization = this.props.userStore.user.firstName + "'s ";
+
   }
 
   logout(){
@@ -59,6 +69,7 @@ export default class Menu extends React.Component {
           </NavItem>
         </Nav>
       )
+
     }
   }
   
@@ -75,4 +86,7 @@ export default class Menu extends React.Component {
       </div>
     );
   }
-}
+});
+
+
+export default withRouter(inject("userStore")(Menu));

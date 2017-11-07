@@ -15,7 +15,12 @@ var Login = observer (class extends Component{
     
     this.state = { 
       email: '',
-      password: '' 
+
+      password: ''
+      // message: '',
+      // link: "",
+      // success: null
+
     }
   }
 
@@ -27,15 +32,13 @@ var Login = observer (class extends Component{
       email: this.state.email,
       password: this.state.password
     }).then((res)=>{
-      console.log(res);
-      if (this.props.userStore.success){
 
+      if (this.props.userStore.success){
         this.props.history.push("/"); 
       }  
       resolve(res) ;
-      }).catch(e => {
-        console.log(e);
-      }); 
+      });
+
     });
   }
 

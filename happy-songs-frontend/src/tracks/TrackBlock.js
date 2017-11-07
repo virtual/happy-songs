@@ -5,6 +5,7 @@ import Popularity from './Popularity';
 import TrackName from './TrackName';
 import { Media } from 'reactstrap';
 import Play from './Play';
+import { inject, observer } from 'mobx-react';
 import './tracks.css';
 import {withRouter} from "react-router-dom";
 var axios = require('axios');
@@ -39,11 +40,40 @@ class TrackBlock extends Component{
     });
   }
 
+
+
+var axios = require('axios');
+var TrackBlock = observer (class extends Component{ 
+  constructor() {
+    super()
+    this.state = {
+      playCount: null
+    }
+
+    // this.fetchPlayCount = this.fetchPlayCount.bind(this);
+  }
+
+
+  componentDidMount(){
+    // debugger;
+    // if (this.props.trackStore.initialized){
+      // console.log(this.props.trackStore)
+    this.props.trackStore.retrieveTracks().then((res)=>{
+      console.log(res);
+    this.props.trackStore.fetchPlayCount();
+  });
+  // }
+}
   render(){ 
+    console.log(this.props.trackStore);
+  let music = this.props.trackStore;
+   if(music.initialized){
     let albums = [];
-    this.state.musicData.tracks.items.slice(0, 3).forEach((e, i)=>{
+    music.musicData.tracks.items.slice(0, 3).forEach((e, i)=>{
       let trackid = e.track.id;
-        let matchTrack = this.tracks.find((track)=>{
+     
+      let matchTrack = music.playCount.find((track)=>{
+
         return track.trackId===trackid;
       });
       if (matchTrack === undefined) {
@@ -62,6 +92,7 @@ class TrackBlock extends Component{
         </Media> 
         </div>);
     })
+  
     return(
       <div>
         <Media>
@@ -69,8 +100,17 @@ class TrackBlock extends Component{
         </Media>
       </div>
     );
-  };
+  } else {
+    return (
+      <div>
+        Loading...
+        </div>
+    )
 }
+}
+});
+
+export default inject("trackStore")(TrackBlock);
 
 export default withRouter(TrackBlock);
 

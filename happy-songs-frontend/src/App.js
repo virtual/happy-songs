@@ -15,8 +15,10 @@ import SignUp from './user/SignUp';
 import About from './features/About';
 import {Provider} from 'mobx-react';
 import UserStore from './stores/UserStore';
+import TrackStore from './stores/TrackStore';
 import Favorites from './tracks/Favorites';
-var axios = require('axios'); 
+var axios = require('axios');
+
 
 class App extends Component {
   constructor() {
@@ -81,6 +83,7 @@ class App extends Component {
                 <Route path='/signup' render={() => <SignUp submitSignup={this.submitSignup} />} />
               <Route path='/findSongs' render={() =>  <TrackBlock musicData={this.state.musicData} playCount={this.state.playCount} />} />
               <Route path='/favorites' render={()=> <Favorites musicData={this.state.musicData} playCount={this.state.playCount} />} />
+
             </div>
         <Footer />
         </div>
@@ -88,6 +91,7 @@ class App extends Component {
         </Provider>
       </div>
       );
+
   }
 }
 
